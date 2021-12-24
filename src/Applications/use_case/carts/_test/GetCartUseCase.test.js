@@ -4,7 +4,7 @@ const CartRepository = require("../../../../Domains/carts/CartRepository");
 const UserRepository = require("../../../../Domains/users/UserRepository");
 const ProductRepository = require("../../../../Domains/products/ProductRepository");
 const GetCartUseCase = require("../GetCartUseCase");
-const Cart = require("../../../../../models/Cart");
+// const Cart = require("../../../../../models/Cart");
 
 describe("GetCartUseCase", () => {
   it("should orchestrating the get cart action correctly", async () => {
@@ -14,14 +14,14 @@ describe("GetCartUseCase", () => {
       cartId: "cart-123",
     };
 
-    expectedCart = new Cart({
+    expectedCart = {
       userId: "user-123",
       products: [
         { productId: "product-123", quantity: 2 },
         { productId: "product-456", quantity: 1 },
         { productId: "product-789", quantity: 1 },
       ],
-    });
+    };
 
     const product1 = {
       id: "product-123",

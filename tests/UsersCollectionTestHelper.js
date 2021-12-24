@@ -1,24 +1,21 @@
 /* istanbul ignore file */
-const connectToDB = require("../src/Infrastructures/database/mongodb/mongoose");
-const User = require("../models/User");
-
-connectToDB();
+const User = require("../src/Infrastructures/database/mongodb/models/User");
 
 const UsersCollectionTestHelper = {
-  async addUser(
+  async getUser({
+    _id = "user-123",
     username = "xyz",
     email = "test@abc.com",
     password = "secret",
-    fullname = "XYZ"
-  ) {
-    const newUser = new User({
+    fullname = "XYZ",
+  }) {
+    return new User({
+      _id,
       username,
       email,
       password,
       fullname,
     });
-
-    await newUser.save();
   },
 
   async findUsersById(id) {
