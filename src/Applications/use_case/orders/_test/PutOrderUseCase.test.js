@@ -1,5 +1,6 @@
 const OrderRepository = require("../../../../Domains/orders/OrderRepository");
 const PutOrderUseCase = require("../PutOrderUseCase");
+const PutOrder = require("../../../../Domains/orders/entities/PutOrder");
 
 describe("PutOrderUseCase", () => {
   it("should orchestrating the put order action correctly", async () => {
@@ -34,7 +35,9 @@ describe("PutOrderUseCase", () => {
     await getPutOrderUseCase.execute(useCasePayload);
 
     // Assert
-    expect(mockOrderRepository.putOrder).toBeCalledWith(useCasePayload.orderId);
+    expect(mockOrderRepository.putOrder).toBeCalledWith(
+      new PutOrder({ ...useCasePayload })
+    );
     expect(mockOrderRepository.verifyOrderOwner).toBeCalledWith(
       useCasePayload.orderId,
       useCasePayload.userId

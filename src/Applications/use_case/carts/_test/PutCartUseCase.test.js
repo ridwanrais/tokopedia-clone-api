@@ -1,5 +1,6 @@
 const CartRepository = require("../../../../Domains/carts/CartRepository");
 const PutCartUseCase = require("../PutCartUseCase");
+const PutCart = require("../../../../Domains/carts/entities/PutCart");
 
 describe("PutCartUseCase", () => {
   it("should orchestrating the put cart action correctly", async () => {
@@ -31,7 +32,9 @@ describe("PutCartUseCase", () => {
     await getPutCartUseCase.execute(useCasePayload);
 
     // Assert
-    expect(mockCartRepository.putCart).toBeCalledWith(useCasePayload.cartId);
+    expect(mockCartRepository.putCart).toBeCalledWith(
+      new PutCart({ ...useCasePayload })
+    );
     expect(mockCartRepository.verifyCartOwner).toBeCalledWith(
       useCasePayload.cartId,
       useCasePayload.userId

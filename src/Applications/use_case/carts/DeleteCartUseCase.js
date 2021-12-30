@@ -5,6 +5,7 @@ class DeleteCartUseCase {
 
   async execute(useCasePayload) {
     const { userId, cartId } = useCasePayload;
+    await this._cartRepository.verifyCartExistence(cartId);
     await this._cartRepository.verifyCartOwner(cartId, userId);
     await this._cartRepository.deleteCart(cartId);
   }

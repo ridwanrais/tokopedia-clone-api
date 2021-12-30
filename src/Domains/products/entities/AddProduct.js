@@ -6,7 +6,7 @@ class AddProduct {
       title,
       desc,
       img,
-      categories = [],
+      categories,
       price,
       discount,
       cashback,
@@ -23,10 +23,21 @@ class AddProduct {
     this.sellerId = sellerId;
   }
 
-  _verifyPayload({ title, desc, img, categories, price, sellerId }) {
+  _verifyPayload({
+    title,
+    desc,
+    img,
+    categories = [],
+    price,
+    discount,
+    sellerId,
+  }) {
     if (!title || !desc || !img || !price || !sellerId) {
       throw new Error("ADD_PRODUCT.NOT_CONTAIN_NEEDED_PROPERTY");
     }
+
+    this.validateOptionalNumbers([discount]);
+    this.validateOptionalStrings(categories);
 
     if (
       typeof title !== "string" ||
@@ -37,6 +48,26 @@ class AddProduct {
     ) {
       throw new Error("ADD_PRODUCT.NOT_MEET_DATA_TYPE_SPECIFICATION");
     }
+  }
+
+  validateOptionalStrings(stringArr) {
+    stringArr.map((element) => {
+      if (element) {
+        if (typeof element !== "string") {
+          throw new Error("ADD_PRODUCT.NOT_MEET_DATA_TYPE_SPECIFICATION");
+        }
+      }
+    });
+  }
+
+  validateOptionalNumbers(numberArr) {
+    numberArr.map((element) => {
+      if (element) {
+        if (typeof element !== "number") {
+          throw new Error("ADD_PRODUCT.NOT_MEET_DATA_TYPE_SPECIFICATION");
+        }
+      }
+    });
   }
 }
 

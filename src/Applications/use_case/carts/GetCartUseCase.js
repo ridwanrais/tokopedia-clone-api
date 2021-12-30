@@ -10,6 +10,7 @@ class GetCartUseCase {
 
   async execute(useCasePayload) {
     const { userId, cartId } = useCasePayload;
+    await this._cartRepository.verifyCartExistence(cartId);
     await this._cartRepository.verifyCartOwner(cartId, userId);
     const cart = await this._cartRepository.getCart(cartId);
 
@@ -17,8 +18,9 @@ class GetCartUseCase {
     const cartProducts = await this._productRepository.getProductsByProductIds(
       productIds
     );
+
     cartProducts.forEach((cartProduct) => {
-      cartProduct.quantity = this.getCartProductQuantity(cart, cartProduct.id);
+      cartProduct.quantity = this.getCartProductQuantity(cart, cartProduct._id);
     });
 
     const rawSellerIds = cartProducts.map((product) => product.sellerId);
@@ -28,8 +30,11 @@ class GetCartUseCase {
     return cartSellers.map(
       (cartSeller) =>
         new CartSellerDetail({
+          id: cartSeller._id,
+          sellerName: cartSeller.username,
+          sellerAddress: cartSeller.address,
           ...cartSeller,
-          products: this.getCartSellerProducts(cartProducts, cartSeller.id),
+          products: this.getCartSellerProducts(cartProducts, cartSeller._id),
         })
     );
   }
@@ -40,6 +45,7 @@ class GetCartUseCase {
       .map(
         (cartProduct) =>
           new CartProductDetail({
+            id: cartProduct._id,
             ...cartProduct,
           })
       );

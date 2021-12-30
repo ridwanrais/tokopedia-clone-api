@@ -24,7 +24,7 @@ describe("GetCartUseCase", () => {
     };
 
     const product1 = {
-      id: "product-123",
+      _id: "product-123",
       img: "https://images.tokopedia.net/img/cache/300-square/VqbcmM/2021/6/4/2b70d389-f092-4439-9ae0-922f82d89974.jpg.webp?ect=4g",
       title: "EVGA RTX 3080Ti FTW3 ULTRA VGA RTX 3080Ti FTW3 ULTRA GAMING",
       price: 9900000,
@@ -33,7 +33,7 @@ describe("GetCartUseCase", () => {
     };
 
     const product2 = {
-      id: "product-456",
+      _id: "product-456",
       img: "https://images.tokopedia.net/img/cache/200-square/VqbcmM/2021/7/22/a707cca9-da2a-4c8b-8156-8eaf785b09c5.jpg.webp?ect=4g",
       title:
         'ASUS ROG Flow X13 GV301QE R9-5900HS 16GB 1TB RTX 3050Ti 13.4" W10 OHS',
@@ -43,7 +43,7 @@ describe("GetCartUseCase", () => {
     };
 
     const product3 = {
-      id: "product-789",
+      _id: "product-789",
       img: "https://images.tokopedia.net/img/cache/200-square/product-1/2020/1/3/5373285/5373285_0f8a708c-4e75-4f49-8ee5-844e0336a92d_800_800.webp?ect=4g",
       title:
         "Memory G.SKILL - F4-3600C19D-16GTZRB Trident Z RGB 2x8GB DDR4 3600",
@@ -53,7 +53,7 @@ describe("GetCartUseCase", () => {
     };
 
     const seller1 = {
-      id: "user-456",
+      _id: "user-456",
       sellerName: "AnerStore",
       merchantLevel:
         "https://images.tokopedia.net/img/goldmerchant/pm_activation/badge/Power%20Merchant%20Pro.png",
@@ -61,7 +61,7 @@ describe("GetCartUseCase", () => {
     };
 
     const seller2 = {
-      id: "user-789",
+      _id: "user-789",
       sellerName: "IT-SHOP-ONLINE",
       merchantLevel:
         "https://images.tokopedia.net/img/goldmerchant/pm_activation/badge/Power%20Merchant%20Pro.png",
@@ -70,36 +70,31 @@ describe("GetCartUseCase", () => {
 
     const expectedCartProductDetail1 = new CartProductDetail({
       ...product1,
+      id: product1._id,
       quantity: 2,
     });
 
     const expectedCartProductDetail2 = new CartProductDetail({
       ...product2,
+      id: product2._id,
       quantity: 1,
     });
 
     const expectedCartProductDetail3 = new CartProductDetail({
       ...product3,
+      id: product3._id,
       quantity: 1,
-    });
-
-    const expectedCartSellerDetail1 = new CartSellerDetail({
-      ...seller1,
-      products: [],
-    });
-
-    const expectedCartSellerDetail2 = new CartSellerDetail({
-      ...seller2,
-      products: [],
     });
 
     const expectedCartDetail = [
       new CartSellerDetail({
         ...seller1,
+        id: seller1._id,
         products: [expectedCartProductDetail1, expectedCartProductDetail2],
       }),
       new CartSellerDetail({
         ...seller2,
+        id: seller2._id,
         products: [expectedCartProductDetail3],
       }),
     ];
@@ -110,6 +105,9 @@ describe("GetCartUseCase", () => {
     const mockProductRepository = new ProductRepository();
 
     /** mocking needed function */
+    mockCartRepository.verifyCartExistence = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
     mockCartRepository.verifyCartOwner = jest
       .fn()
       .mockImplementation(() => Promise.resolve());

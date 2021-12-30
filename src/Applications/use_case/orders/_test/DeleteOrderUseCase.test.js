@@ -16,6 +16,9 @@ describe("DeleteOrderUseCase", () => {
     mockOrderRepository.deleteOrder = jest
       .fn()
       .mockImplementation(() => Promise.resolve());
+    mockOrderRepository.verifyOrderExistence = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
     mockOrderRepository.verifyOrderOwner = jest
       .fn()
       .mockImplementation(() => Promise.resolve());
@@ -30,6 +33,9 @@ describe("DeleteOrderUseCase", () => {
 
     // Assert
     expect(mockOrderRepository.deleteOrder).toBeCalledWith(
+      useCasePayload.orderId
+    );
+    expect(mockOrderRepository.verifyOrderExistence).toBeCalledWith(
       useCasePayload.orderId
     );
     expect(mockOrderRepository.verifyOrderOwner).toBeCalledWith(

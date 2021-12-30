@@ -13,6 +13,9 @@ describe("DeleteProductUseCase", () => {
     const mockProductRepository = new ProductRepository();
 
     /** mocking needed function */
+    mockProductRepository.verifyProductExistence = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
     mockProductRepository.verifyProductOwner = jest
       .fn()
       .mockImplementation(() => Promise.resolve());
@@ -29,6 +32,9 @@ describe("DeleteProductUseCase", () => {
     await deleteDeleteProductUseCase.execute(useCasePayload);
 
     // Assert
+    expect(mockProductRepository.verifyProductExistence).toBeCalledWith(
+      useCasePayload.productId
+    );
     expect(mockProductRepository.verifyProductOwner).toBeCalledWith(
       useCasePayload.productId,
       useCasePayload.userId

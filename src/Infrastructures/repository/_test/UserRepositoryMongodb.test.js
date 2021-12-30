@@ -21,7 +21,7 @@ describe("UserRepositoryMongodb", () => {
   });
 
   describe("addUser function", () => {
-    it("should persist register user and return registered user correctly", async () => {
+    it("should persist register user", async () => {
       // Arrange
       const registerUser = new RegisterUser({
         username: "dicoding",
@@ -32,7 +32,7 @@ describe("UserRepositoryMongodb", () => {
       const userRepositoryMongoDB = new UserRepositoryMongodb(collection);
 
       // Action
-      const result = await userRepositoryMongoDB.addUser(registerUser);
+      await userRepositoryMongoDB.addUser(registerUser);
 
       // Assert
       const user = await collection.findOne({ username: "dicoding" });
@@ -62,10 +62,10 @@ describe("UserRepositoryMongodb", () => {
   describe("verifyAvailableUsername function", () => {
     it("should throw InvariantError when username not available", async () => {
       // Arrange
-      const user = await UsersCollectionTestHelper.getUser({
+      const user = await UsersCollectionTestHelper.getUserModel({
         username: "test123",
       });
-      await collection.insertOne(user); // memasukan user baru dengan username dicoding
+      await collection.insertOne(user); // memasukan user baru dengan username test123
       const userRepositoryMongoDB = new UserRepositoryMongodb(collection);
 
       // Action & Assert
@@ -98,7 +98,7 @@ describe("UserRepositoryMongodb", () => {
 
     it("should return username password when user is found", async () => {
       // Arrange
-      const user = await UsersCollectionTestHelper.getUser({
+      const user = await UsersCollectionTestHelper.getUserModel({
         username: "dicoding",
         password: "secret_password",
       });
@@ -126,7 +126,7 @@ describe("UserRepositoryMongodb", () => {
 
     it("should return user id correctly", async () => {
       // Arrange
-      const user = await UsersCollectionTestHelper.getUser({
+      const user = await UsersCollectionTestHelper.getUserModel({
         username: "dicoding",
       });
       const result = await collection.insertOne(user);
@@ -141,7 +141,7 @@ describe("UserRepositoryMongodb", () => {
     });
   });
 
-  describe("getUsernameById", () => {
+  describe("getUsersByIds", () => {
     it("should throw InvariantError when user not found", async () => {
       // Arrange
       const userRepositoryMongoDB = new UserRepositoryMongodb(collection);
@@ -152,27 +152,28 @@ describe("UserRepositoryMongodb", () => {
       ).rejects.toThrowError(InvariantError);
     });
 
-    it("should return user id correctly", async () => {
+    it("should return users correctly", async () => {
       // Arrange
-      const user1 = await UsersCollectionTestHelper.getUser({
+      const user1 = await UsersCollectionTestHelper.getUserModel({
         username: "dicoding",
       });
       const result1 = await collection.insertOne(user1);
-      const id1 = result1.insertedId.toString();
+      const id1 = result1.insertedId;
 
-      const user2 = await UsersCollectionTestHelper.getUser({
+      const user2 = await UsersCollectionTestHelper.getUserModel({
         username: "myUser",
       });
       const result2 = await collection.insertOne(user2);
-      const id2 = result2.insertedId.toString();
+      const id2 = result2.insertedId;
 
       const userRepositoryMongoDB = new UserRepositoryMongodb(collection);
 
       // Action
-      const userIds = await userRepositoryMongoDB.getUsersByIds([id1, id2]);
+      const users = await userRepositoryMongoDB.getUsersByIds([id1, id2]);
 
       // Assert
-      expect(userIds).toEqual(["dicoding", "myUser"]);
+      const usernames = users.map((user) => user.username);
+      expect(usernames).toEqual(["dicoding", "myUser"]);
     });
   });
 });

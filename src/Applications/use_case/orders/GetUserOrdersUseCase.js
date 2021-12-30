@@ -1,4 +1,4 @@
-class GetOrderUseCase {
+class GetUserOrdersUseCase {
   constructor({ orderRepository }) {
     this._orderRepository = orderRepository;
   }
@@ -9,4 +9,4 @@ class GetOrderUseCase {
   }
 }
 
-module.exports = GetOrderUseCase;
+module.exports = GetUserOrdersUseCase;

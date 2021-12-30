@@ -3,7 +3,7 @@ class OrderRepository {
     throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async putOrder(orderId) {
+  async putOrder(putOrder) {
     throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
@@ -11,11 +11,15 @@ class OrderRepository {
     throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
+  async verifyOrderExistence(orderId) {
+    throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
+  }
+
   async verifyOrderOwner(orderId, userId) {
     throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 
-  async getUserOrders(orderId) {
+  async getUserOrders(userId) {
     throw new Error("ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED");
   }
 }

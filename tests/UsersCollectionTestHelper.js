@@ -1,31 +1,43 @@
 /* istanbul ignore file */
 const User = require("../src/Infrastructures/database/mongodb/models/User");
+const userCollection =
+  require("../src/Infrastructures/database/mongodb/db").collection("users");
 
 const UsersCollectionTestHelper = {
-  async getUser({
-    _id = "user-123",
+  async getUserModel({
     username = "xyz",
     email = "test@abc.com",
     password = "secret",
     fullname = "XYZ",
+    address,
   }) {
     return new User({
-      _id,
       username,
       email,
       password,
       fullname,
+      address,
     });
   },
 
-  async findUsersById(id) {
-    const user = await User.findById(id);
+  async addUser({
+    username = "xyz",
+    email = "test@abc.com",
+    password = "secret",
+    fullname = "XYZ",
+    address,
+  }) {
+    const user = await this.getUserModel({
+      username,
+      email,
+      password,
+      fullname,
+      address,
+    });
 
-    return user;
-  },
+    const result = await userCollection.insertOne(user);
 
-  async cleanCollection() {
-    await User.deleteMany({});
+    return result.insertedId;
   },
 };
 

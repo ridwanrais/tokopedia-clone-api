@@ -16,6 +16,9 @@ describe("DeleteCartUseCase", () => {
     mockCartRepository.deleteCart = jest
       .fn()
       .mockImplementation(() => Promise.resolve());
+    mockCartRepository.verifyCartExistence = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
     mockCartRepository.verifyCartOwner = jest
       .fn()
       .mockImplementation(() => Promise.resolve());
@@ -30,6 +33,9 @@ describe("DeleteCartUseCase", () => {
 
     // Assert
     expect(mockCartRepository.deleteCart).toBeCalledWith(useCasePayload.cartId);
+    expect(mockCartRepository.verifyCartExistence).toBeCalledWith(
+      useCasePayload.cartId
+    );
     expect(mockCartRepository.verifyCartOwner).toBeCalledWith(
       useCasePayload.cartId,
       useCasePayload.userId

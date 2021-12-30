@@ -12,14 +12,13 @@ class CartSellerDetail {
   }
 
   _verifyPayload({ id, sellerName, merchantLevel, sellerAddress, products }) {
-    if (!id || !sellerName || !merchantLevel || !sellerAddress || !products) {
+    if (!id || !sellerName || !sellerAddress || !products) {
       throw new Error("CART_SELLER_DETAIL.NOT_CONTAIN_NEEDED_PROPERTY");
     }
 
     if (
       typeof id !== "string" ||
       typeof sellerName !== "string" ||
-      typeof merchantLevel !== "string" ||
       typeof sellerAddress !== "string" ||
       typeof products !== "object"
     ) {

@@ -20,5 +20,8 @@ const db = client.db(dbName);
 db.closeConnection = async () => {
   await client.close();
 };
+// db.openConnection = async () => {
+//   await client.connect();
+// };
 
 module.exports = db;

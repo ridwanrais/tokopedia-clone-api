@@ -15,6 +15,9 @@ describe("OrderRepository interface", () => {
     await expect(orderRepository.deleteOrder({})).rejects.toThrowError(
       "ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED"
     );
+    await expect(orderRepository.verifyOrderExistence({})).rejects.toThrowError(
+      "ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED"
+    );
     await expect(orderRepository.verifyOrderOwner({})).rejects.toThrowError(
       "ORDER_REPOSITORY.METHOD_NOT_IMPLEMENTED"
     );

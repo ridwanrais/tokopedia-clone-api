@@ -39,11 +39,15 @@ describe("an AddProduct entities", () => {
       desc: "abc",
       img: "abc",
       price: 90,
+      categories: ["food"],
+      discount: 0.1,
       sellerId: "user-123",
     };
 
     // Action
-    const { title, desc, img, price, sellerId } = new AddProduct(payload);
+    const { title, desc, img, price, sellerId, discount } = new AddProduct(
+      payload
+    );
 
     // Assert
     expect(title).toEqual(payload.title);
@@ -51,5 +55,6 @@ describe("an AddProduct entities", () => {
     expect(img).toEqual(payload.img);
     expect(price).toEqual(payload.price);
     expect(sellerId).toEqual(payload.sellerId);
+    expect(discount).toEqual(payload.discount);
   });
 });

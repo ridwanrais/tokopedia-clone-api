@@ -2,7 +2,6 @@ const InvariantError = require("../../Commons/exceptions/InvariantError");
 const RegisteredUser = require("../../Domains/users/entities/RegisteredUser");
 const UserRepository = require("../../Domains/users/UserRepository");
 const User = require("../database/mongodb/models/User");
-const ObjectId = require("mongodb").ObjectId;
 
 class UserRepositoryMongodb extends UserRepository {
   constructor(collection) {
@@ -50,23 +49,15 @@ class UserRepositoryMongodb extends UserRepository {
   }
 
   async getUsersByIds(ids) {
-    const objectIds = ids.map((id) => {
-      if (ObjectId.isValid(id)) {
-        return ObjectId(id);
-      }
-    });
-
     const userArray = await this._collection
-      .find({
-        _id: { $in: objectIds },
-      })
+      .find({ _id: { $in: ids } })
       .toArray();
 
     if (!userArray.length) {
-      throw new InvariantError("user tidak ditemukan");
+      throw new InvariantError("users tidak ditemukan");
     }
 
-    return userArray.map((user) => user.username);
+    return userArray;
   }
 }
 

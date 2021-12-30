@@ -1,8 +1,8 @@
 const OrderDetail = require("../../../../Domains/orders/entities/OrderDetail");
 const OrderRepository = require("../../../../Domains/orders/OrderRepository");
-const GetOrderUseCase = require("../GetUserOrdersUseCase");
+const GetUserOrdersUseCase = require("../GetUserOrdersUseCase");
 
-describe("GetOrderUseCase", () => {
+describe("GetUserOrdersUseCase", () => {
   it("should orchestrating the get order action correctly", async () => {
     // Arrange
     const useCasePayload = {
@@ -35,12 +35,12 @@ describe("GetOrderUseCase", () => {
       .mockImplementation(() => Promise.resolve(expectedOrdersDetail));
 
     /** creating use case instance */
-    const getGetOrderUseCase = new GetOrderUseCase({
+    const getGetUserOrdersUseCase = new GetUserOrdersUseCase({
       orderRepository: mockOrderRepository,
     });
 
     // Action
-    const ordersDetail = await getGetOrderUseCase.execute(useCasePayload);
+    const ordersDetail = await getGetUserOrdersUseCase.execute(useCasePayload);
 
     // Assert
     expect(ordersDetail).toStrictEqual(expectedOrdersDetail);

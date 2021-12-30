@@ -1,0 +1,26 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": ["google"],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "quotes": "off",
+    "comma-dangle": "off",
+    "class-methods-use-this": "off",
+    "require-jsdoc": "off",
+    "indent": "off",
+    "object-curly-spacing": "off",
+    "max-len": "off",
+    "new-cap": "off",
+    "operator-linebreak": "off",
+    "space-before-function-paren": "off"
+  }
+}
